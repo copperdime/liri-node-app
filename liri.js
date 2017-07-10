@@ -8,8 +8,7 @@ var accessTokenKey = getKeys.access_token_key;
 var accessTokenSecret = getKeys.access_token_secret;
 var Spotify = require('node-spotify-api');
 var request = require('request');
-var async = require("async");
-const tweetCountMax = 20;
+var tweetCountMax = 20;
 
 var client = new Twitter({
     consumer_key: consumerKey,
@@ -26,16 +25,16 @@ var spotify = new Spotify({
 
 
 var getLastTwentyTweets = function(){
-    client.get('search/tweets', {q: 'node.js'}, function(error, tweets, response) {
+    client.get('search/tweets', {q: 'AutumnDNA2'}, function(error, tweets, response) {
         if(error){
             return error;
         }
 
         if(tweets.statuses.length <= tweetCountMax){
-            tweetCount = tweets.statuses.length;
+            tweetCountMax = tweets.statuses.length;
         }
-        for(var i = 0; i < tweetCount; i++){
-            console.log(i + ") "+tweets.statuses[i].text+"\n");
+        for(var i = (tweetCountMax -1); i >= 0; i--){
+            console.log(tweets.statuses[i].text);
         }
     });
 };
@@ -55,8 +54,8 @@ var getSongDetails = function(songName) {
 };
 
 var movieDetails = function(movieName){
-    var requesString = "http://www.omdbapi.com/?apikey=40e9cece&t="+movieName;
-    var movieDetails = request(requesString, function (error, response, body) {
+    var requestString = "http://www.omdbapi.com/?apikey=40e9cece&t="+movieName;
+    var movieDetails = request(requestString, function (error, response, body) {
         console.log(response.body);
     });
 
@@ -79,6 +78,8 @@ var showResults = function() {
             movieName = 'Mr.Nobody';
         }
         movieDetails(movieName);
+    }else {
+        console.log("Please enter an option");
     }
 };
 
